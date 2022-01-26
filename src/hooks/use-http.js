@@ -1,16 +1,15 @@
 import {useCallback, useState} from "react";
 
-const useHttp = (applyData) => {
+const useHttp = () => {
     // State used in a custom hook attached to component some uses this hook
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const sendRequest = useCallback(async (requestConfig) => {
+    const sendRequest = useCallback(async (requestConfig, applyData) => {
         setIsLoading(true);
         setError(null);
         try {
             const response = await fetch(
-                //'https://react-custom-hook-847d7-default-rtdb.europe-west1.firebasedatabase.app/tasks.json'
                 requestConfig.url, {
                     method: requestConfig.method ? requestConfig.method : "GET",
                     headers: requestConfig.headers ? requestConfig.headers : {},
@@ -29,7 +28,7 @@ const useHttp = (applyData) => {
             setError(err.message || 'Something went wrong!');
         }
         setIsLoading(false);
-    }, [applyData]);
+    }, []);
     return {
         isLoading,
         error,
